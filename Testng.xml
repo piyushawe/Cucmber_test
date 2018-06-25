@@ -2,16 +2,8 @@
 
 <suite name="Suite13" verbose="1">
     <test name="test3">
-        <groups>
-            <define name="all">
-                <include name="Negative"/>
-            </define>
-            <run>
-                <include name="all"/>
-            </run>
-        </groups>
         <classes>
-            <class name="Runner"/>
+            <class name="Runner1"/>
         </classes>
     </test>
 </suite>

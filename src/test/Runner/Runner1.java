@@ -1,6 +1,7 @@
 import cucumber.api.CucumberOptions;
+import cucumber.api.testng.CucumberFeatureWrapper;
 import cucumber.api.testng.TestNGCucumberRunner;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 
 @CucumberOptions(
@@ -10,12 +11,27 @@ import org.testng.annotations.Test;
         ,plugin= {"pretty","html:target/cucumber_html_report",
         "json:target/cucumber.json",
         "junit:target/cucumber.xml"}
-        ,tags= {"@testing"}
+      //  ,tags= {"@testing"}
 )
-
+@Listeners(Cucmber_test.Listeners.class)
 public class Runner1 {
-    @Test(groups = "Positive")
-            public void ruunnnn(){
-                new TestNGCucumberRunner(getClass()).;
+    private TestNGCucumberRunner testing;
+    @BeforeClass(alwaysRun = true)
+    public void before(){
+        System.out.println("This is Beforeclass");
+        testing=new TestNGCucumberRunner(this.getClass());
+    }
+    @DataProvider
+    public Object[][] data(){
+        System.out.println("this is dataprovider");
+        return testing.provideFeatures();
+
+    }
+
+    @Test(groups = "Positive",dataProvider = "data")
+            public void ruunnnn(CucumberFeatureWrapper cuc){
+        System.out.println("This is Test");
+        testing.runCucumber(cuc.getCucumberFeature());
+
             }
 }
